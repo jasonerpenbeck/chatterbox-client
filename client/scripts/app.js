@@ -6,7 +6,7 @@ app.init = function () {};
 app.send = function () {
   var message = {};
   message.roomname = this.defaultRoom;
-  message.text = 'sdkgfhskd';
+  message.text = $('#messageBox').val();
   message.username = this.username || 'Anonymous';
 
   $.ajax({
@@ -24,7 +24,6 @@ app.send = function () {
     }
   });
 };
-
 
 app.fetch = function () {
   $.ajax({

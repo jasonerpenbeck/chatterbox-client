@@ -19,6 +19,9 @@
           Refresh Page
         </button>
 
+        <textarea name = "message" id="messageBox" rows = "5" cols = "40">
+        </textarea>
+
         <button id = "sendButton">
           Send Message
         </button>
@@ -27,24 +30,24 @@
         </div>
     </div>
 
-
   <script>
-  $(document).ready(function() {
-    $('#refreshButton').on('click',function(e) {
-      e.preventDefault;
+    $(document).ready(function() {
+      $('#refreshButton').on('click',function(e) {
+        e.preventDefault;
+        app.fetch();
+      });
+
+      $('#sendButton').on('click',function(e) {
+        e.preventDefault;
+        app.send();
+      });
+
+      if(!app.username) {
+        console.log(app.username);
+        app.username = prompt("Enter your username");
+      }
       app.fetch();
     });
-
-    $('#sendButton').on('click',function(e) {
-      e.preventDefault;
-      app.send();
-    });
-
-    app.username = prompt("Enter your username");
-
-    app.fetch();
-  });
-
 
   </script>
 
