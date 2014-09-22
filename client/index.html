@@ -39,7 +39,13 @@
 
       $('#sendButton').on('click',function(e) {
         e.preventDefault;
-        app.send();
+        var message = {};
+        message.username = app.username || 'Anonymous';
+        message.text = $('#messageBox').val();
+        message.roomname = app.defaultRoom;
+
+        app.send(message);
+        app.fetch();
       });
 
       if(!app.username) {

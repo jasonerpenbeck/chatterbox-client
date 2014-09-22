@@ -3,11 +3,7 @@ var app = {};
 app.defaultRoom = 'chatterbox';
 app.server = 'https://api.parse.com/1/classes/chatterbox';
 app.init = function () {};
-app.send = function () {
-  var message = {};
-  message.roomname = this.defaultRoom;
-  message.text = $('#messageBox').val();
-  message.username = this.username || 'Anonymous';
+app.send = function (message) {
 
   $.ajax({
     url: this.server,
@@ -16,7 +12,10 @@ app.send = function () {
     contentType: 'application/json',
     success: function (data) {
       console.log('chatterbox: Message sent');
+      console.log(data);
+
       app.fetch();
+      return data;
     },
     error: function (data) {
       // see: https://developer.mozilla.org/en-US/docs/Web/API/console.error
