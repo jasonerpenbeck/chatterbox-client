@@ -15,14 +15,27 @@
   <body>
     <div id="main">
       <h1>chatterbox</h1>
+        <button id = "refreshButton">
+          Refresh Page
+        </button>
+
         <div id = "content">
-          <script>
-          $(document).ready(function() {
-            app.fetch();
-          });
-          </script>
         </div>
-      <!-- Your HTML goes here! -->
     </div>
+
+
+  <script>
+  $(document).ready(function() {
+    $('#refreshButton').on('click',function(e) {
+      e.preventDefault;
+      $('#content').empty();
+      app.fetch();
+    });
+    app.fetch();
+  });
+
+
+  </script>
+
   </body>
 </html>

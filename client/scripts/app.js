@@ -19,11 +19,11 @@ app.fetch = function () {
 
       var results = data.results;
       var contentList = $('#content').append('<ul>');
+      console.log(results.length);
 
       for(var i =0; i < results.length; i++) {
-        var message = $('<li>'+decodeURI(results[i].text)+'</li>');
-
-        // escape the message
+        var message = $('<li>');
+        message.text(results[i].text);
         contentList.append(message);
       }
 
