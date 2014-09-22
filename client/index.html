@@ -19,6 +19,10 @@
           Refresh Page
         </button>
 
+        <button id = "sendButton">
+          Send Message
+        </button>
+
         <div id = "content">
         </div>
     </div>
@@ -28,9 +32,16 @@
   $(document).ready(function() {
     $('#refreshButton').on('click',function(e) {
       e.preventDefault;
-      $('#content').empty();
       app.fetch();
     });
+
+    $('#sendButton').on('click',function(e) {
+      e.preventDefault;
+      app.send();
+    });
+
+    app.username = prompt("Enter your username");
+
     app.fetch();
   });
 
