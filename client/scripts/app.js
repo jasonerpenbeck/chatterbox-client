@@ -2,7 +2,32 @@ var app = {};
 app.defaultRoom = 'chatterbox';
 app.server = 'https://api.parse.com/1/classes/chatterbox';
 
-app.init = function () {};
+app.init = function () {
+
+  $('#refreshButton').on('click', function(e) {
+    e.preventDefault;
+    app.fetch();
+  });
+
+  $('#sendButton').on('click', function(e) {
+    e.preventDefault;
+    var message = {};
+    message.username = app.username || 'Anonymous';
+    message.text = $('#messageBox').val();
+    message.roomname = app.defaultRoom;
+
+    app.send(message);
+    app.fetch();
+  });
+
+  $('#main').on('click','a.username',function(e) {
+    e.preventDefault;
+    // add username as friend
+    console.log('Click Registered');
+    app.addFriend();
+  });
+
+};
 
 app.send = function (message) {
   $.ajax({
@@ -43,7 +68,10 @@ app.clearMessages = function() {
 };
 
 app.addMessage = function(message) {
-  $('#chats').append($('<li>').text(message.text));
+    var anchor = '<a href = "' + encodeURI(message.username) + '" class="username">'+ encodeURI(message.username)+'</a>';
+    console.log(anchor);
+    var div = $('div').html(anchor + message.text);
+  $('#chats').append(div);
 };
 
 app.addRoom = function(room) {
@@ -51,6 +79,7 @@ app.addRoom = function(room) {
 };
 
 app.addFriend = function() {
+
 };
 
 app.handleSubmit = function() {
