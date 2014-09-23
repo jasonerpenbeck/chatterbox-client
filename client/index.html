@@ -17,17 +17,13 @@
     <div id="main" class="container-fluid">
       <h1>chatterbox</h1>
 
-<!--      <button id="refreshButton">Refresh Page</button><br><br>-->
-
       <div id="rooms">
         Room:
         <select id="roomSelect">
           <option value="HR18_19">HR18/19</option>
         </select>
-
         <input type="text" name="addRoomName" id="addRoomName" length="25" value="roomName">
         <button id="addRoom" name="addRoom">Add A Room</button>
-
       </div>
 
       <form action="#" id="send" method="post">
@@ -40,11 +36,6 @@
 
     <script>
       $(document).ready(function() {
-/*        if(!app.username) {
-          console.log(app.username);
-          app.username = prompt("Enter your username");
-        }*/
-
         app.init();
       });
     </script>

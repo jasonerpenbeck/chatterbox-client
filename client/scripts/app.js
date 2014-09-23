@@ -28,7 +28,6 @@ app.init = function () {
 
   $('#roomSelect').on('change',function(e) {
       e.preventDefault();
-      // var selectedValue = $('#roomSelect').val();
       var roomValue = $('select option:selected').text();
       app.fetch(roomValue);
   });
@@ -36,7 +35,6 @@ app.init = function () {
   $('#chats').on('click', 'a.username', function(e) {
       e.preventDefault();
       e.stopPropagation();
-      console.log($(this).text());
       app.addFriend($(this).text());
   });
   // Retrieve most recent messages every 30 seconds
@@ -44,7 +42,7 @@ app.init = function () {
   setInterval(function() {
     app.clearMessages();
     app.fetch();
-  }, 3000);
+  }, 30000);
 };
 
 app.send = function (message) {
@@ -89,7 +87,6 @@ app.clearMessages = function() {
 };
 
 app.addMessage = function(message) {
-  // console.log(message);
   var $chats = $('#chats');
   var $message = $('<div/>');
   var $user = $('<a/>', {
