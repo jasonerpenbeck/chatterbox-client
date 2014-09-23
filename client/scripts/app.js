@@ -19,6 +19,13 @@ app.init = function () {
     app.handleSubmit();
   });
 
+  $('#addRoom').on('click',function(e) {
+      e.preventDefault();
+      var $roomNameValue = $('#addRoomName').val();
+      app.addRoom($roomNameValue);
+  });
+
+
   // Retrieve most recent messages every 30 seconds
   app.fetch();
   setInterval(function() {
@@ -83,8 +90,6 @@ app.addMessage = function(message) {
 };
 
 app.addRoom = function(room) {
-
-
   var $option = $('<option>' + room + '</option>');
   $option.attr('value',room);
   $('#roomSelect').append($option);
