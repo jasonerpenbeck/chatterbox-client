@@ -11,10 +11,6 @@ app.send = function (message) {
     data: JSON.stringify(message),
     contentType: 'application/json',
     success: function (data) {
-      console.log('chatterbox: Message sent');
-      console.log(data);
-
-      app.fetch();
       return data;
     },
     error: function (data) {
@@ -31,18 +27,10 @@ app.fetch = function () {
     dataType: 'json',
     success: function(data) {
 
-      // Empty out everything in the content div before reloading fetched messages
-      $('#content').empty();
-
+      app.clearMessages();
       var results = data.results;
-      var contentList = $('#content').append('<ul>');
-
       for(var i =0; i < results.length; i++) {
-        console.log(results[i].roomname);
-
-        var message = $('<li>');
-        message.text(results[i].text);
-        contentList.append(message);
+        app.addMessage(results[i]);
       }
 
     },
@@ -52,4 +40,12 @@ app.fetch = function () {
 
   });
 
+};
+
+app.clearMessages = function() {
+  $('#chats').empty();
+};
+
+app.addMessage = function(message) {
+  $('#chats').append($('<li>').text(message.text));
 };
