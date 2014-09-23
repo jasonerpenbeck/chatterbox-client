@@ -66,3 +66,11 @@ app.clearMessages = function() {
 app.addMessage = function(message) {
   $('#chats').append($('<li>').text(message.text));
 };
+
+app.addRoom = function(room) {
+  var $option = $('<option>' + room + '</option>');
+  $option.attr('value',room);
+
+  // var option = $('option').attr('value',room);
+  $('#roomSelect').append($option);
+};
