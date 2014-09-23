@@ -4,13 +4,13 @@ app.server = 'https://api.parse.com/1/classes/chatterbox';
 
 app.init = function () {
 
-  $('#refreshButton').on('click', function(e) {
-    e.preventDefault;
-    app.fetch();
-  });
+  $('#refreshButton').on('click',function(e) {
+      e.preventDefault();
+      app.fetch();
+    });
 
-  $('#sendButton').on('click', function(e) {
-    e.preventDefault;
+  $('#sendButton').on('click',function(e) {
+    e.preventDefault();
     var message = {};
     message.username = app.username || 'Anonymous';
     message.text = $('#messageBox').val();
@@ -21,10 +21,15 @@ app.init = function () {
   });
 
   $('#main').on('click','a.username',function(e) {
-    e.preventDefault;
-    // add username as friend
-    console.log('Click Registered');
+    e.preventDefault();
     app.addFriend();
+  });
+
+  $('#send .submit').on('submit',function(e) {
+
+    console.log('Submit triggered');
+    e.preventDefault();
+    app.handleSubmit();
   });
 
 };
@@ -76,6 +81,17 @@ app.addMessage = function(message) {
 
 app.addRoom = function(room) {
   $('#roomSelect').append('<option value='+room+'>'+room+'</option>');
+  var $anchor = $('<a href = "#">'+ message.username +'</a>');
+  $anchor.addClass('username');
+  var $div = $('<div>').append($anchor);
+
+  $('#chats').append($div).append(message.text);
+};
+
+app.addRoom = function(room) {
+  var $option = $('<option>' + room + '</option>');
+  $option.attr('value',room);
+  $('#roomSelect').append($option);
 };
 
 app.addFriend = function() {
@@ -83,4 +99,5 @@ app.addFriend = function() {
 };
 
 app.handleSubmit = function() {
+
 };
