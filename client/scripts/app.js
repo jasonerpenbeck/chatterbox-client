@@ -1,5 +1,5 @@
 var app = {};
-app.defaultRoom = 'chatterbox';
+app.defaultRoom = 'HR18_19';
 app.server = 'https://api.parse.com/1/classes/chatterbox';
 
 app.init = function () {
@@ -9,23 +9,12 @@ app.init = function () {
       app.fetch();
   });
 
-  $('#sendButton').on('click',function(e) {
-    e.preventDefault();
-    var message = {};
-    message.username = app.username || 'Anonymous';
-    message.text = $('#messageBox').val();
-    message.roomname = app.defaultRoom;
-
-    app.send(message);
-    app.fetch();
-  });
-
   $('#main').on('click','a.username',function(e) {
     e.preventDefault();
     app.addFriend();
   });
 
-  $('#send .submit').on('submit',function(e) {
+  $('input.submit').on('click',function(e) {
     e.preventDefault();
     app.handleSubmit();
   });
@@ -77,7 +66,7 @@ app.clearMessages = function() {
 };
 
 app.addMessage = function(message) {
-  console.log(message);
+  // console.log(message);
   var $chats = $('#chats');
   var $message = $('<div/>');
   var $user = $('<a/>', {
@@ -92,6 +81,8 @@ app.addMessage = function(message) {
 };
 
 app.addRoom = function(room) {
+
+
   var $option = $('<option>' + room + '</option>');
   $option.attr('value',room);
   $('#roomSelect').append($option);
@@ -102,5 +93,11 @@ app.addFriend = function() {
 };
 
 app.handleSubmit = function() {
-  // Todo: Implement handleSubmit method
+    var message = {};
+    message.username = app.username || 'Anonymous';
+    message.text = $('#message').val();
+    message.roomname = app.defaultRoom;
+
+    app.send(message);
+    app.fetch();
 };

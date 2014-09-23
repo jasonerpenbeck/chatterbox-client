@@ -79,7 +79,8 @@ describe('chatterbox', function() {
         var message = {
           username: 'Mel Brooks',
           text: 'Never underestimate the power of the Schwartz!',
-          roomname: 'lobby'
+          roomname: 'lobby',
+          createdAt: new Date()
         };
 
         app.addMessage(message);
@@ -102,7 +103,8 @@ describe('chatterbox', function() {
         app.addMessage({
           username: 'Mel Brooks',
           text: 'I didn\'t get a harumph outa that guy.!',
-          roomname: 'lobby'
+          roomname: 'lobby',
+          createdAt: new Date()
         });
 
         app.init();
@@ -121,7 +123,6 @@ describe('chatterbox', function() {
         app.init();
 
         $('#send .submit').trigger('submit');
-        debugger;
         expect(app.handleSubmit.calledOnce).to.be.true;
 
         app.handleSubmit.restore();
