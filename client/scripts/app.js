@@ -1,7 +1,7 @@
 var app = {};
+
 app.defaultRoom = 'chatterbox';
 app.server = 'https://api.parse.com/1/classes/chatterbox';
-
 app.init = function () {
 
   $('#refreshButton').on('click',function(e) {
@@ -33,8 +33,8 @@ app.init = function () {
   });
 
 };
-
 app.send = function (message) {
+
   $.ajax({
     url: this.server,
     type: 'POST',
@@ -56,16 +56,20 @@ app.fetch = function () {
     type: 'GET',
     dataType: 'json',
     success: function(data) {
+
       app.clearMessages();
       var results = data.results;
       for(var i =0; i < results.length; i++) {
         app.addMessage(results[i]);
       }
+
     },
     error: function(xhr, status, errorThrown) {
       console.log('Sorry, but we could not fetch any messages.');
     }
+
   });
+
 };
 
 app.clearMessages = function() {
@@ -73,14 +77,6 @@ app.clearMessages = function() {
 };
 
 app.addMessage = function(message) {
-    var anchor = '<a href = "' + encodeURI(message.username) + '" class="username">'+ encodeURI(message.username)+'</a>';
-    console.log(anchor);
-    var div = $('div').html(anchor + message.text);
-  $('#chats').append(div);
-};
-
-app.addRoom = function(room) {
-  $('#roomSelect').append('<option value='+room+'>'+room+'</option>');
   var $anchor = $('<a href = "#">'+ message.username +'</a>');
   $anchor.addClass('username');
   var $div = $('<div>').append($anchor);
