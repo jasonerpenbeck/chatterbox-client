@@ -69,15 +69,16 @@ app.clearMessages = function() {
 };
 
 app.addMessage = function(message) {
+  var $anchor = $('<a href = "#">'+ message.username +'</a>');
+  $anchor.addClass('username');
+  var $div = $('<div>').append($anchor);
 
-  $('#chats').append($('<li>').text(message.text));
+  $('#chats').append($div).append(message.text);
 };
 
 app.addRoom = function(room) {
   var $option = $('<option>' + room + '</option>');
   $option.attr('value',room);
-
-  // var option = $('option').attr('value',room);
   $('#roomSelect').append($option);
 };
 
