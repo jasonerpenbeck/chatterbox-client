@@ -6,29 +6,32 @@
     <link rel="stylesheet" href="styles/styles.css">
     <script src="bower_components/jquery/jquery.min.js"></script>
     <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
     <script src="scripts/config.js"></script>
     <script src="scripts/app.js"></script>
   </head>
   <body>
-    <div id="main">
+    <div id="main" class="container-fluid">
       <h1>chatterbox</h1>
       <button id = "refreshButton">Refresh Page</button><br>
+      <input type = "text" name = "messageRoomName" id="messageRoomName" length = "25" value="roomName">
+      <form>
+        <textarea id="messageBox" rows = "5" placeholder="Compose new Tweet..."></textarea>
+        <button id = "sendButton">Send a new message</button><br>
+      </form>
 
-      <textarea name = "message" id="messageBox" rows = "5" cols = "40"></textarea>
-      <button id = "sendButton">Send Message</button><br>
-
-      <input type = "text" name = "messageRoomName" id="messageRoomName" length = "25" value="roomName"><br>
-
-      <div id = "chats"/></div>
+      <div id="chats" class="jumbotron"></div>
+    </div>
 
     <script>
       $(document).ready(function() {
-        app.init();
-
         if(!app.username) {
           console.log(app.username);
           app.username = prompt("Enter your username");
         }
+
+        app.init();
         app.fetch();
       });
     </script>
