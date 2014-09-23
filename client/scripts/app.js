@@ -26,12 +26,16 @@ app.init = function () {
   });
 
   $('#send .submit').on('submit',function(e) {
-
-    console.log('Submit triggered');
     e.preventDefault();
     app.handleSubmit();
   });
 
+  // Retrieve most recent messages every 30 seconds
+  app.fetch();
+  setInterval(function() {
+    app.clearMessages();
+    app.fetch();
+  }, 30000);
 };
 app.send = function (message) {
 
@@ -56,20 +60,16 @@ app.fetch = function () {
     type: 'GET',
     dataType: 'json',
     success: function(data) {
-
       app.clearMessages();
       var results = data.results;
       for(var i =0; i < results.length; i++) {
         app.addMessage(results[i]);
       }
-
     },
     error: function(xhr, status, errorThrown) {
       console.log('Sorry, but we could not fetch any messages.');
     }
-
   });
-
 };
 
 app.clearMessages = function() {
@@ -80,7 +80,6 @@ app.addMessage = function(message) {
   var $anchor = $('<a href = "#">'+ message.username +'</a>');
   $anchor.addClass('username');
   var $div = $('<div>').append($anchor);
-
   $('#chats').append($div).append(message.text);
 };
 
@@ -91,9 +90,9 @@ app.addRoom = function(room) {
 };
 
 app.addFriend = function() {
-
+  // Todo: implement addFriend method
 };
 
 app.handleSubmit = function() {
-
+  // Todo: Implement handleSubmit method
 };
