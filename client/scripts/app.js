@@ -37,8 +37,8 @@ app.init = function () {
     app.fetch();
   }, 30000);
 };
-app.send = function (message) {
 
+app.send = function (message) {
   $.ajax({
     url: this.server,
     type: 'POST',
@@ -56,7 +56,7 @@ app.send = function (message) {
 
 app.fetch = function () {
   $.ajax({
-    url: this.server + '?order=-createdAt',
+    url: this.server + '?order=-createdAt&limit=50', // we fetch the most recent 50 messages for now
     type: 'GET',
     dataType: 'json',
     success: function(data) {
@@ -77,10 +77,16 @@ app.clearMessages = function() {
 };
 
 app.addMessage = function(message) {
-  var $anchor = $('<a href = "#">'+ message.username +'</a>');
-  $anchor.addClass('username');
-  var $div = $('<div>').append($anchor);
-  $('#chats').append($div).append(message.text);
+  var $chats = $('#chats');
+  var $message = $('<div/>');
+  var $user = $('<a/>', {
+    href: '#',
+    html: _.escape(message.username)
+  });
+  $message.append($user)
+    .append(' ' + _.escape(message.text));
+
+  $chats.append($message);
 };
 
 app.addRoom = function(room) {
