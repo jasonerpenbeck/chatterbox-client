@@ -25,6 +25,12 @@ app.init = function () {
       app.addRoom($roomNameValue);
   });
 
+  $('#roomSelect').on('change',function(e) {
+      e.preventDefault();
+      // var selectedValue = $('#roomSelect').val();
+      var roomValue = $('select option:selected').text();
+      app.fetch(roomValue);
+  });
 
   // Retrieve most recent messages every 30 seconds
   app.fetch();
@@ -50,9 +56,12 @@ app.send = function (message) {
   });
 };
 
-app.fetch = function () {
+app.fetch = function (room) {
+  var parameters = JSON.stringify({'roomname': room});
+
   $.ajax({
     url: this.server + '?order=-createdAt&limit=50', // we fetch the most recent 50 messages for now
+    data: 'where='+parameters,
     type: 'GET',
     dataType: 'json',
     success: function(data) {
