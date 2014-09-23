@@ -32,21 +32,7 @@
 
   <script>
     $(document).ready(function() {
-      $('#refreshButton').on('click',function(e) {
-        e.preventDefault;
-        app.fetch();
-      });
-
-      $('#sendButton').on('click',function(e) {
-        e.preventDefault;
-        var message = {};
-        message.username = app.username || 'Anonymous';
-        message.text = $('#messageBox').val();
-        message.roomname = app.defaultRoom;
-
-        app.send(message);
-        app.fetch();
-      });
+      app.init();
 
       if(!app.username) {
         console.log(app.username);

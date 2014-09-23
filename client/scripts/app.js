@@ -2,7 +2,24 @@ var app = {};
 
 app.defaultRoom = 'chatterbox';
 app.server = 'https://api.parse.com/1/classes/chatterbox';
-app.init = function () {};
+app.init = function () {
+
+  $('#refreshButton').on('click',function(e) {
+      e.preventDefault;
+      app.fetch();
+    });
+
+  $('#sendButton').on('click',function(e) {
+    e.preventDefault;
+    var message = {};
+    message.username = app.username || 'Anonymous';
+    message.text = $('#messageBox').val();
+    message.roomname = app.defaultRoom;
+
+    app.send(message);
+    app.fetch();
+  });
+};
 app.send = function (message) {
 
   $.ajax({
