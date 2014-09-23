@@ -1,6 +1,7 @@
 var app = {};
 app.defaultRoom = 'HR18_19';
 app.server = 'https://api.parse.com/1/classes/chatterbox';
+app.friends = [];
 
 app.init = function () {
 
@@ -32,12 +33,18 @@ app.init = function () {
       app.fetch(roomValue);
   });
 
+  $('#chats').on('click', 'a.username', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log($(this).text());
+      app.addFriend($(this).text());
+  });
   // Retrieve most recent messages every 30 seconds
   app.fetch();
   setInterval(function() {
     app.clearMessages();
     app.fetch();
-  }, 30000);
+  }, 3000);
 };
 
 app.send = function (message) {
@@ -92,6 +99,10 @@ app.addMessage = function(message) {
 
   $user.addClass('username');
 
+  if(app.friends.indexOf(message.username) !== -1) {
+    $message.addClass('friend');
+  }
+
   $message.append($user)
     .append(' (' + $.timeago(message.createdAt) + ') ' + _.escape(message.text));
 
@@ -104,8 +115,10 @@ app.addRoom = function(room) {
   $('#roomSelect').append($option);
 };
 
-app.addFriend = function() {
-  // Todo: implement addFriend method
+app.addFriend = function(friend) {
+  if(app.friends.indexOf(friend) === -1) {
+    app.friends.push(friend);
+  }
 };
 
 app.handleSubmit = function() {

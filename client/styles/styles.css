@@ -86,3 +86,7 @@ textarea {
 .spinner img {
     padding: 10px;
 }
+
+.friend {
+    font-weight: bold;
+}
