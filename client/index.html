@@ -1,61 +1,54 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>chatterbox</title>
     <link rel="stylesheet" href="styles/styles.css">
-
-    <!-- dependencies -->
     <script src="bower_components/jquery/jquery.min.js"></script>
     <script src="bower_components/underscore/underscore-min.js"></script>
-    <!-- your scripts -->
     <script src="scripts/config.js"></script>
     <script src="scripts/app.js"></script>
   </head>
   <body>
     <div id="main">
       <h1>chatterbox</h1>
-        <button id = "refreshButton">
-          Refresh Page
-        </button>
+      <button id = "refreshButton">Refresh Page</button><br>
 
-        <textarea name = "message" id="messageBox" rows = "5" cols = "40">
-        </textarea>
+      <textarea name = "message" id="messageBox" rows = "5" cols = "40"></textarea>
+      <button id = "sendButton">Send Message</button><br>
 
-        <button id = "sendButton">
-          Send Message
-        </button>
+      <input type = "text" name = "messageRoomName" id="messageRoomName" length = "25" value="roomName"><br>
 
-        <div id = "chats">
-        </div>
+      <div id = "roomSelect"></div>
+
+      <div id = "chats"/>
+
     </div>
 
-  <script>
-    $(document).ready(function() {
-      $('#refreshButton').on('click',function(e) {
-        e.preventDefault;
+    <script>
+      $(document).ready(function() {
+        $('#refreshButton').on('click', function(e) {
+          e.preventDefault;
+          app.fetch();
+        });
+
+        $('#sendButton').on('click', function(e) {
+          e.preventDefault;
+          var message = {};
+          message.username = app.username || 'Anonymous';
+          message.text = $('#messageBox').val();
+          message.roomname = app.defaultRoom;
+
+          app.send(message);
+          app.fetch();
+        });
+
+        if(!app.username) {
+          console.log(app.username);
+          app.username = prompt("Enter your username");
+        }
         app.fetch();
       });
-
-      $('#sendButton').on('click',function(e) {
-        e.preventDefault;
-        var message = {};
-        message.username = app.username || 'Anonymous';
-        message.text = $('#messageBox').val();
-        message.roomname = app.defaultRoom;
-
-        app.send(message);
-        app.fetch();
-      });
-
-      if(!app.username) {
-        console.log(app.username);
-        app.username = prompt("Enter your username");
-      }
-      app.fetch();
-    });
-
-  </script>
-
+    </script>
   </body>
 </html>

@@ -1,10 +1,10 @@
 var app = {};
-
 app.defaultRoom = 'chatterbox';
 app.server = 'https://api.parse.com/1/classes/chatterbox';
-app.init = function () {};
-app.send = function (message) {
 
+app.init = function () {};
+
+app.send = function (message) {
   $.ajax({
     url: this.server,
     type: 'POST',
@@ -26,20 +26,16 @@ app.fetch = function () {
     type: 'GET',
     dataType: 'json',
     success: function(data) {
-
       app.clearMessages();
       var results = data.results;
       for(var i =0; i < results.length; i++) {
         app.addMessage(results[i]);
       }
-
     },
     error: function(xhr, status, errorThrown) {
       console.log('Sorry, but we could not fetch any messages.');
     }
-
   });
-
 };
 
 app.clearMessages = function() {
@@ -48,4 +44,14 @@ app.clearMessages = function() {
 
 app.addMessage = function(message) {
   $('#chats').append($('<li>').text(message.text));
+};
+
+app.addRoom = function(room) {
+  $('#roomSelect').append('<option value='+room+'>'+room+'</option>');
+};
+
+app.addFriend = function() {
+};
+
+app.handleSubmit = function() {
 };
