@@ -1,13 +1,13 @@
 var app = {};
-
 app.defaultRoom = 'chatterbox';
 app.server = 'https://api.parse.com/1/classes/chatterbox';
+
 app.init = function () {
 
   $('#refreshButton').on('click',function(e) {
       e.preventDefault();
       app.fetch();
-    });
+  });
 
   $('#sendButton').on('click',function(e) {
     e.preventDefault();
@@ -77,14 +77,16 @@ app.clearMessages = function() {
 };
 
 app.addMessage = function(message) {
+  console.log(message);
   var $chats = $('#chats');
   var $message = $('<div/>');
   var $user = $('<a/>', {
     href: '#',
     html: _.escape(message.username)
   });
+
   $message.append($user)
-    .append(' ' + _.escape(message.text));
+    .append(' (' + $.timeago(message.createdAt) + ') ' + _.escape(message.text));
 
   $chats.append($message);
 };
