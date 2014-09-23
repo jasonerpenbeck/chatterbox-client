@@ -19,6 +19,11 @@ app.init = function () {
     app.send(message);
     app.fetch();
   });
+
+  $('#main').on('click','a.username',function(e) {
+    e.preventDefault;
+    app.addFriend();
+  });
 };
 app.send = function (message) {
 
@@ -64,6 +69,7 @@ app.clearMessages = function() {
 };
 
 app.addMessage = function(message) {
+
   $('#chats').append($('<li>').text(message.text));
 };
 
@@ -74,3 +80,7 @@ app.addRoom = function(room) {
   // var option = $('option').attr('value',room);
   $('#roomSelect').append($option);
 };
+
+app.addFriend = function() {
+
+}
