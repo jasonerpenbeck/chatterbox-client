@@ -74,6 +74,8 @@ app.addMessage = function(message) {
     html: _.escape(message.username)
   });
 
+  $user.addClass('username');
+
   $message.append($user)
     .append(' (' + $.timeago(message.createdAt) + ') ' + _.escape(message.text));
 
