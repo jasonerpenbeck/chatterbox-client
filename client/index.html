@@ -16,14 +16,27 @@
   <body>
     <div id="main" class="container-fluid">
       <h1>chatterbox</h1>
-      <button id="refreshButton">Refresh Page</button><br><br>
-      <input type="text" name="messageRoomName" id="messageRoomName" length="25" value="roomName">
+
+<!--      <button id="refreshButton">Refresh Page</button><br><br>-->
+
+      <div id="rooms">
+        Room:
+        <select id="roomSelect">
+          <option value="HR18_19">HR18/19</option>
+        </select>
+      </div>
+      <form action="#" id="send" method="post">
+        <input type="text" name="message" id="message"/>
+        <input type="submit" name="submit" class="submit"/>
+      </form>
+
       <form>
         <textarea id="messageBox" rows ="3" placeholder="Enter new message..."></textarea>
         <button id="sendButton">Send a new message</button><br>
       </form>
+      <input type="text" name="messageRoomName" id="messageRoomName" length="25" value="roomName">
 
-      <div id="chats" class="jumbotron"></div>
+      <div id="chats"></div>
     </div>
 
     <script>
