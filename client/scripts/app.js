@@ -6,11 +6,6 @@ app.friends = [];
 
 app.init = function () {
 
-  $('#refreshButton').on('click',function(e) {
-    e.preventDefault();
-    app.fetch();
-  });
-
   $('#main').on('click','a.username',function(e) {
     e.preventDefault();
     app.addFriend();
@@ -31,8 +26,7 @@ app.init = function () {
     e.preventDefault();
     var roomValue = $('select option:selected').text();
     app.roomChoice = roomValue;
-    console.log(app.roomChoice);
-    app.fetch(roomValue);
+    app.fetch(app.addMessages,roomValue);
   });
 
   $('#chats').on('click', 'a.username', function(e) {
@@ -41,13 +35,13 @@ app.init = function () {
     app.addFriend($(this).text());
   });
   // Retrieve most recent messages every 30 seconds
-  app.fetch();
+  app.fetch(app.addMessages);
 
   setInterval(function() {
     app.clearMessages();
 
     // need to pass room value if there is one
-    app.fetch(app.roomChoice);
+    app.fetch(app.addMessages,app.roomChoice);
   }, 30000);
 };
 
@@ -67,7 +61,7 @@ app.send = function (message) {
   });
 };
 
-app.fetch = function (room) {
+app.fetch = function (callback,room) {
   var parameters = '{}';
 
   if(room !== undefined) {
@@ -80,15 +74,7 @@ app.fetch = function (room) {
     type: 'GET',
     dataType: 'json',
     success: function(data) {
-
-      // Re-factor
-      // app.clearMessages();
-      // var results = data.results;
-      app.addMessages(data.results)
-
-      // for(var i =0; i < results.length; i++) {
-      //   app.addMessage(results[i]);
-      // }
+      callback(data.results)
     },
     error: function(xhr, status, errorThrown) {
       console.log('Sorry, but we could not fetch any messages.');
@@ -131,10 +117,6 @@ app.addMessage = function(message) {
 app.addRoom = function(room) {
   var $option = $('<option>' + room + '</option>');
   $option.attr('value',room);
-
-  // Possible re-factor
-  // var $option = $('<option>' + room + '</option>').attr('value',room);
-
   $('#roomSelect').append($option);
 };
 
@@ -146,12 +128,11 @@ app.addFriend = function(friend) {
 
 app.handleSubmit = function() {
   var message = {};
-  // do these need to be escaped?
+  // TODO: do these need to be escaped?
   message.username = app.username || 'Anonymous';
   message.text = $('#message').val();
-  // Should a message's roomname be equal to whatever room the user is currently in?
   message.roomname = app.roomChoice;
 
   app.send(message);
-  app.fetch(app.roomChoice);
+  app.fetch(app.addMessages,app.roomChoice);
 };
