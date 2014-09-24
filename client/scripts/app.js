@@ -1,13 +1,14 @@
 var app = {};
-app.defaultRoom = 'HR18_19';
+app.defaultRoom = 'default';
+app.roomChoice = app.defaultRoom;
 app.server = 'https://api.parse.com/1/classes/chatterbox';
 app.friends = [];
 
 app.init = function () {
 
   $('#refreshButton').on('click',function(e) {
-      e.preventDefault();
-      app.fetch();
+    e.preventDefault();
+    app.fetch();
   });
 
   $('#main').on('click','a.username',function(e) {
@@ -21,27 +22,32 @@ app.init = function () {
   });
 
   $('#addRoom').on('click',function(e) {
-      e.preventDefault();
-      var $roomNameValue = $('#addRoomName').val();
-      app.addRoom($roomNameValue);
+    e.preventDefault();
+    var $roomNameValue = $('#addRoomName').val();
+    app.addRoom($roomNameValue);
   });
 
   $('#roomSelect').on('change',function(e) {
-      e.preventDefault();
-      var roomValue = $('select option:selected').text();
-      app.fetch(roomValue);
+    e.preventDefault();
+    var roomValue = $('select option:selected').text();
+    app.roomChoice = roomValue;
+    console.log(app.roomChoice);
+    app.fetch(roomValue);
   });
 
   $('#chats').on('click', 'a.username', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      app.addFriend($(this).text());
+    e.preventDefault();
+    e.stopPropagation();
+    app.addFriend($(this).text());
   });
   // Retrieve most recent messages every 30 seconds
   app.fetch();
+
   setInterval(function() {
     app.clearMessages();
-    app.fetch();
+
+    // need to pass room value if there is one
+    app.fetch(app.roomChoice);
   }, 30000);
 };
 
@@ -62,19 +68,27 @@ app.send = function (message) {
 };
 
 app.fetch = function (room) {
-  var parameters = JSON.stringify({'roomname': room});
+  var parameters = '{}';
+
+  if(room !== undefined) {
+    parameters = 'where='+JSON.stringify({'roomname': room});
+  }
 
   $.ajax({
     url: this.server + '?order=-createdAt&limit=50', // we fetch the most recent 50 messages for now
-    data: 'where='+parameters,
+    data: parameters,
     type: 'GET',
     dataType: 'json',
     success: function(data) {
-      app.clearMessages();
-      var results = data.results;
-      for(var i =0; i < results.length; i++) {
-        app.addMessage(results[i]);
-      }
+
+      // Re-factor
+      // app.clearMessages();
+      // var results = data.results;
+      app.addMessages(data.results)
+
+      // for(var i =0; i < results.length; i++) {
+      //   app.addMessage(results[i]);
+      // }
     },
     error: function(xhr, status, errorThrown) {
       console.log('Sorry, but we could not fetch any messages.');
@@ -84,6 +98,14 @@ app.fetch = function (room) {
 
 app.clearMessages = function() {
   $('#chats').empty();
+};
+
+app.addMessages = function(results) {
+  app.clearMessages();
+
+  for(var i =0; i < results.length; i++) {
+    app.addMessage(results[i]);
+  }
 };
 
 app.addMessage = function(message) {
@@ -109,6 +131,10 @@ app.addMessage = function(message) {
 app.addRoom = function(room) {
   var $option = $('<option>' + room + '</option>');
   $option.attr('value',room);
+
+  // Possible re-factor
+  // var $option = $('<option>' + room + '</option>').attr('value',room);
+
   $('#roomSelect').append($option);
 };
 
@@ -119,11 +145,13 @@ app.addFriend = function(friend) {
 };
 
 app.handleSubmit = function() {
-    var message = {};
-    message.username = app.username || 'Anonymous';
-    message.text = $('#message').val();
-    message.roomname = app.defaultRoom;
+  var message = {};
+  // do these need to be escaped?
+  message.username = app.username || 'Anonymous';
+  message.text = $('#message').val();
+  // Should a message's roomname be equal to whatever room the user is currently in?
+  message.roomname = app.roomChoice;
 
-    app.send(message);
-    app.fetch();
+  app.send(message);
+  app.fetch(app.roomChoice);
 };
