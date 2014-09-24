@@ -3,6 +3,7 @@ app.defaultRoom = 'default';
 app.roomChoice = app.defaultRoom;
 app.server = 'https://api.parse.com/1/classes/chatterbox';
 app.friends = [];
+app.username = 'Anon';
 
 app.init = function () {
 
@@ -45,14 +46,14 @@ app.init = function () {
   }, 30000);
 };
 
-app.send = function (message) {
+app.send = function (message, callback) {
   $.ajax({
     url: this.server,
     type: 'POST',
     data: JSON.stringify(message),
     contentType: 'application/json',
     success: function (data) {
-      return data;
+      callback(message);
     },
     error: function (data) {
       // see: https://developer.mozilla.org/en-US/docs/Web/API/console.error
@@ -114,6 +115,26 @@ app.addMessage = function(message) {
   $chats.append($message);
 };
 
+app.displayMessage = function(message) {
+  var $chats = $('#chats');
+  var $message = $('<div/>');
+  var $user = $('<a/>', {
+    href: '#',
+    html: _.escape(message.username)
+  });
+
+  $user.addClass('username');
+
+  if(app.friends.indexOf(message.username) !== -1) {
+    $message.addClass('friend');
+  }
+
+  $message.append($user)
+    .append('(just now)' + _.escape(message.text));
+
+  $chats.prepend($message);
+}
+
 app.addRoom = function(room) {
   var $option = $('<option>' + room + '</option>');
   $option.attr('value',room);
@@ -133,6 +154,6 @@ app.handleSubmit = function() {
   message.text = $('#message').val();
   message.roomname = app.roomChoice;
 
-  app.send(message);
-  app.fetch(app.addMessages,app.roomChoice);
+  app.send(message,app.displayMessage);
+  // app.fetch(app.addMessages,app.roomChoice);
 };
